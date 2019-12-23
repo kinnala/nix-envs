@@ -62,12 +62,6 @@
   :bind (("C-c c" . org-capture)
          ("C-c a" . org-agenda)))
 
-(use-package s)
-
-(use-package f)
-
-(use-package dash)
-
 (use-package hydra)
 
 (use-package ivy
@@ -165,11 +159,6 @@
               ("'" . run-gnome-terminal-here)
               ("j" . swiper)
               ("s" . swiper)))
-
-(use-package ob-async
-  :after org)
-
-(use-package request)
 
 (use-package json-mode)
 

@@ -7,9 +7,6 @@ mkdir -p $out/share/emacs/site-lisp
 cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
 '')
       use-package
-      s
-      f
-      dash
       hydra
       ivy
       counsel
@@ -21,8 +18,6 @@ cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       exec-path-from-shell
       expand-region
       multiple-cursors
-      ob-async
-      request
       json-mode
       leuven-theme
       highlight-indentation
