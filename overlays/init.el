@@ -255,6 +255,124 @@
 
 (use-package nix-mode)
 
+;; move lines, from https://github.com/kinnala/move-lines
+
+(defun move-lines--internal (n)
+  "Moves the current line or, if region is actives, the lines surrounding
+region, of N lines. Down if N is positive, up if is negative"
+  (let* (text-start
+         text-end
+         (region-start (point))
+         (region-end region-start)
+         swap-point-mark
+         delete-latest-newline)
+
+    ;; STEP 1: identifying the text to cut.
+    (when (region-active-p)
+      (if (> (point) (mark))
+          (setq region-start (mark))
+        (exchange-point-and-mark)
+        (setq swap-point-mark t
+              region-end (point))))
+
+    ;; text-end and region-end
+    (end-of-line)
+    ;; If point !< point-max, this buffers doesn't have the trailing newline.
+    (if (< (point) (point-max))
+        (forward-char 1)
+      (setq delete-latest-newline t)
+      (insert-char ?\n))
+    (setq text-end (point)
+          region-end (- region-end text-end))
+
+    ;; text-start and region-start
+    (goto-char region-start)
+    (beginning-of-line)
+    (setq text-start (point)
+          region-start (- region-start text-end))
+
+    ;; STEP 2: cut and paste.
+    (let ((text (delete-and-extract-region text-start text-end)))
+      (forward-line n)
+      ;; If the current-column != 0, I have moved the region at the bottom of a
+      ;; buffer doesn't have the trailing newline.
+      (when (not (= (current-column) 0))
+        (insert-char ?\n)
+        (setq delete-latest-newline t))
+      (insert text))
+
+    ;; STEP 3: Restoring.
+    (forward-char region-end)
+
+    (when delete-latest-newline
+      (save-excursion
+        (goto-char (point-max))
+        (delete-char -1)))
+
+    (when (region-active-p)
+      (setq deactivate-mark nil)
+      (set-mark (+ (point) (- region-start region-end)))
+      (if swap-point-mark
+          (exchange-point-and-mark)))))
+
+(defun move-lines-up (n)
+  "Moves the current line or, if region is actives, the lines surrounding
+region, up by N lines, or 1 line if N is nil."
+  (interactive "p")
+  (if (eq n nil)
+      (setq n 1))
+  (move-lines--internal (- n)))
+
+(defun move-lines-down (n)
+  "Moves the current line or, if region is actives, the lines surrounding
+region, down by N lines, or 1 line if N is nil."
+  (interactive "p")
+  (if (eq n nil)
+      (setq n 1))
+  (move-lines--internal n))
+
+(defun tom/shift-left (start end &optional count)
+  "Shift region left and activate hydra."
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end) current-prefix-arg)
+     (list (line-beginning-position) (line-end-position) current-prefix-arg)))
+  (python-indent-shift-left start end count)
+  (tom/hydra-move-lines/body))
+
+(defun tom/shift-right (start end &optional count)
+  "Shift region right and activate hydra."
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end) current-prefix-arg)
+     (list (line-beginning-position) (line-end-position) current-prefix-arg)))
+  (python-indent-shift-right start end count)
+  (tom/hydra-move-lines/body))
+
+(defun tom/move-lines-p ()
+  "Move lines up once and activate hydra."
+  (interactive)
+  (move-lines-up 1)
+  (tom/hydra-move-lines/body))
+
+(defun tom/move-lines-n ()
+  "Move lines down once and activate hydra."
+  (interactive)
+  (move-lines-down 1)
+  (tom/hydra-move-lines/body))
+
+(defhydra tom/hydra-move-lines ()
+  "Move one or multiple lines"
+  ("n" move-lines-down "down")
+  ("p" move-lines-up "up")
+  ("<" python-indent-shift-left "left")
+  (">" python-indent-shift-right "right"))
+
+(define-key global-map (kbd "C-c n") 'tom/move-lines-n)
+(define-key global-map (kbd "C-c p") 'tom/move-lines-p)
+(define-key global-map (kbd "C-c <") 'tom/shift-left)
+(define-key global-map (kbd "C-c >") 'tom/shift-right)
+
 ;; useful functions
 
 (defun tom/unfill-paragraph (&optional region)
