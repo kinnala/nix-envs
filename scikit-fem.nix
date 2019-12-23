@@ -1,4 +1,4 @@
-with import (fetchTarball https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz) {};
+with import (fetchTarball https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz) { };
 
 (let
   meshio = callPackage ./deps/meshio.nix {

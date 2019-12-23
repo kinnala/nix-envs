@@ -70,7 +70,7 @@
   :init
   (ivy-mode 1)
   (setq ivy-height 10
-	ivy-fixed-height-minibuffer t
+        ivy-fixed-height-minibuffer t
        	ivy-use-virtual-buffers t)
   :bind (("C-x b" . ivy-switch-buffer)
          ("C-c r" . ivy-resume)
@@ -78,9 +78,9 @@
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-c g" . counsel-rg)
-	 ("C-c f" . counsel-file-jump)
+         ("C-x C-f" . counsel-find-file)
+         ("C-c g" . counsel-rg)
+         ("C-c f" . counsel-file-jump)
          ("C-c G" . counsel-git)
          ("C-x b" . counsel-switch-buffer)
          ("C-c h" . counsel-minibuffer-history)
@@ -90,14 +90,11 @@
 (use-package swiper
   :bind ("C-c s" . swiper))
 
-(use-package ivy-hydra)
-
 (use-package transient)
 
 (use-package magit
   :init
-  (setq magit-repository-directories '(("~/src" . 1)
-                                       ("~/.emacs.d/straight/repos/" . 1)))
+  (setq magit-repository-directories '(("~/src" . 1)))
   :bind (("C-x g" . magit-status)
          ("C-c M-g" . magit-file-dispatch)
          ("C-c l" . magit-list-repositories)))
@@ -217,9 +214,6 @@
   :mode "\\.csv$"
   :init
   (setq csv-separators '(";")))
-
-(use-package rainbow-delimiters
-  :init (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package phi-search
   :after multiple-cursors
