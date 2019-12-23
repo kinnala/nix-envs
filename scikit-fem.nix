@@ -27,5 +27,7 @@ in python37.withPackages (ps: [
   pygmsh
   dmsh
   sksparse
+  ps.ipython
+  ps.jupyter
 ])
 ).env
