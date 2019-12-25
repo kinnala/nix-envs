@@ -1,20 +1,20 @@
-with import (fetchTarball https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz) { };
+with import <nixpkgs> { };
 
 (let
-  meshio = callPackage ./pkgs/meshio.nix {
+  meshio = callPackage ./deps/meshio.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
   };
-  pygmsh = callPackage ./pkgs/pygmsh.nix {
+  pygmsh = callPackage ./deps/pygmsh.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
     meshio = meshio;
   };
-  dmsh = callPackage ./pkgs/dmsh.nix {
+  dmsh = callPackage ./deps/dmsh.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
   };
-  sksparse = callPackage ./pkgs/sksparse.nix {
+  sksparse = callPackage ./deps/sksparse.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
   };
@@ -29,5 +29,6 @@ in python37.withPackages (ps: [
   sksparse
   ps.ipython
   ps.jupyter
+  ps.plotly
 ])
 ).env
