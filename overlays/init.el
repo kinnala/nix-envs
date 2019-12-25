@@ -255,6 +255,11 @@
 
 (use-package nix-mode)
 
+(use-package web-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
+  (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))))
+
 ;; move lines, from https://github.com/kinnala/move-lines
 
 (defun move-lines--internal (n)

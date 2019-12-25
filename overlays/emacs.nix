@@ -32,6 +32,10 @@ cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
     melpaPackages.nix-mode
     melpaPackages.anaconda-mode
     melpaPackages.ivy-pass
+    melpaPackages.web-mode
     elpaPackages.csv-mode
   ]));
 }
+
+
+
