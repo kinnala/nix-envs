@@ -1,20 +1,20 @@
 with import (fetchTarball https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz) { };
 
 (let
-  meshio = callPackage ./deps/meshio.nix {
+  meshio = callPackage ./pkgs/meshio.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
   };
-  pygmsh = callPackage ./deps/pygmsh.nix {
+  pygmsh = callPackage ./pkgs/pygmsh.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
     meshio = meshio;
   };
-  dmsh = callPackage ./deps/dmsh.nix {
+  dmsh = callPackage ./pkgs/dmsh.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
   };
-  sksparse = callPackage ./deps/sksparse.nix {
+  sksparse = callPackage ./pkgs/sksparse.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
   };
