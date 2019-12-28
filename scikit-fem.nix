@@ -1,6 +1,6 @@
 with import (fetchTarball https://github.com/NixOS/nixpkgs/archive/19.09.tar.gz) { };
 
-(let
+let
   meshio = callPackage ./pkgs/meshio.nix {
     buildPythonPackage = python37Packages.buildPythonPackage;
     fetchPypi = python37Packages.fetchPypi;
@@ -30,4 +30,3 @@ in python37.withPackages (ps: [
   ps.ipython
   ps.jupyter
 ])
-).env
